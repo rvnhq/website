@@ -4,7 +4,7 @@ import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: 'https://raven.rvnhq.com',
+  site: 'https://raven.ayuch.dev',
   output: 'static',
   integrations: [react(), mdx()],
   vite: {
