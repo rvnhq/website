@@ -1,0 +1,25 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import DocsSidebar from "../components/docs/DocsSidebar.astro";
+import NavbarClient from "../components/layout/NavbarClient";
+
+export interface Props {
+  title: string;
+  description?: string;
+  currentPath?: string;
+}
+
+const { title, description, currentPath = Astro.url.pathname } = Astro.props;
+---
+
+<BaseLayout title={`${title} - Raven Docs`} description={description}>
+  <NavbarClient currentPath={currentPath} client:load />
+
+  <div class="docs-layout">
+    <DocsSidebar currentPath={currentPath} />
+
+    <main class="docs-content">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

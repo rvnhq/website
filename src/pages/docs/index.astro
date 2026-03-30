@@ -1,0 +1,143 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+---
+
+<DocsLayout
+  title="Introduction"
+  description="Why we built Raven - the problem with server observability for self-hosted teams, and how Raven solves it."
+  currentPath="/docs"
+>
+  <nav class="docs-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span aria-hidden="true">›</span>
+    <span>Introduction</span>
+  </nav>
+
+  <article class="prose">
+    <h1>Introduction</h1>
+    <p
+      class="text-body"
+      style="font-size: 1.0625rem; margin-bottom: var(--space-8); color: var(--fg-muted);"
+    >
+      A telemetry platform for developers who self-host - and want to stay sane
+      when something breaks.
+    </p>
+
+    <h2 id="the-problem">The problem</h2>
+
+    <p>
+      If you run applications on your own servers - a VPS, a bare-metal machine,
+      a handful of cloud instances you manage yourself - you've lived this
+      scenario: something breaks in production, and your first instinct is to
+      open a terminal.
+    </p>
+
+    <p>
+      You SSH into the affected server, run <code>htop</code>, tail a log file,
+      check
+      <code>journalctl</code>. If you have multiple servers, you repeat this
+      across all of them, manually correlating timestamps across different shell
+      windows, hoping you find the signal before your users escalate.
+    </p>
+
+    <p>
+      This is the ops visibility gap. It's not that the data doesn't exist -
+      every Linux server exposes everything through <code>/proc</code> and writes
+      logs to disk. The problem is that the data is <strong
+        >scattered, ephemeral, and unsearchable</strong
+      > unless you've built infrastructure specifically to collect and centralize
+      it.
+    </p>
+
+    <p>
+      Enterprise teams solve this with Datadog, Grafana Cloud, or New Relic.
+      These products are excellent. They are also priced for teams with a
+      budget, require accounts with external vendors, and carry genuine
+      complexity overhead - dashboards to configure, agents to manage, pipelines
+      to wire up, retention policies to set.
+    </p>
+
+    <p>
+      For a solo developer or a small team running five servers, this is too
+      much. The alternative - doing nothing and relying on SSH and <code
+        >grep</code
+      > - is also not acceptable once you care about uptime.
+    </p>
+
+    <h2 id="how-raven-solves-it">How Raven solves it</h2>
+
+    <p>
+      Raven is a self-hosted telemetry platform designed specifically for this
+      gap. Its design philosophy has three commitments:
+    </p>
+
+    <p>
+      <strong>Zero external dependencies.</strong> One <code
+        >docker compose up</code
+      > command starts everything: the central server, a metrics time-series database
+      (VictoriaMetrics), and a log storage engine (ClickHouse). No SaaS accounts.
+      No API keys for third parties. Your data stays on your infrastructure.
+    </p>
+
+    <p>
+      <strong>A minimal agent footprint.</strong> The agent is a single static Rust
+      binary. It reads <code>/proc</code> every 10 seconds for system metrics and
+      watches log files with kernel-level <code>inotify</code> notifications. It uses
+      roughly 10–20 MB of RAM and negligible CPU. It runs as a restricted system user.
+      If the central server is unreachable, it buffers data locally in a write-ahead
+      log and replays it on reconnect - no gaps in your timeline.
+    </p>
+
+    <p>
+      <strong>Useful out of the box.</strong> The dashboard gives you an agents overview
+      with sparklines, per-host time-series charts, a log explorer with full-text
+      search and live tail, and an alerting engine that sends to Discord, Slack, or
+      email. There is nothing to configure before it works.
+    </p>
+
+    <h2 id="architecture">Architecture in brief</h2>
+
+    <p>
+      Each monitored server runs <code>raven-agent</code>, a Linux daemon that
+      collects metrics and tails log files. It streams data to the central <code
+        >raven-server</code
+      > over a persistent gRPC connection with TLS. The server routes metrics to VictoriaMetrics
+      and logs to ClickHouse, then exposes an HTTP API and WebSocket endpoint for
+      the dashboard.
+    </p>
+
+    <p>
+      The dashboard is a React application served as static assets directly by <code
+        >raven-server</code
+      >
+      - no separate web server needed. API calls are same-origin.
+    </p>
+
+    <h2 id="getting-started">Getting started</h2>
+
+    <p>
+      The fastest path to a working Raven setup is the installation guide, which
+      walks through deploying the central server with Docker Compose, generating
+      an agent token from the dashboard, and installing the agent on a target
+      machine.
+    </p>
+
+    <a
+      href="/docs/installation"
+      class="btn btn-primary btn-lg docs-install-cta"
+    >
+      Go to installation guide
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
+    </a>
+  </article>
+</DocsLayout>

@@ -1,0 +1,340 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NavbarClient from "../components/layout/NavbarClient";
+import Hero from "../components/landing/Hero";
+import Footer from "../components/layout/Footer.astro";
+---
+
+<BaseLayout>
+  <!-- Navbar: React island for scroll + theme interactivity -->
+  <NavbarClient currentPath="/" client:load />
+
+  <!-- ── Hero ── -->
+  <Hero client:load />
+
+  <!-- ── Why Section ── -->
+  <section class="section" id="why" aria-labelledby="why-heading">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">The problem</span>
+        <h2 class="text-headline" id="why-heading">You're flying blind.</h2>
+        <p>
+          When something breaks at 3 AM, you're SSHing into servers, grepping
+          through scattered log files, and hoping you find the signal before
+          your users do.
+        </p>
+      </div>
+
+      <div class="cards-grid stagger animate-on-scroll">
+        <div class="feature-card">
+          <svg
+            class="feature-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+            <path d="M8 21h8M12 17v4"></path>
+          </svg>
+          <h3>Scattered across machines</h3>
+          <p>
+            Logs live on the servers that produced them. Correlating an
+            application error with a CPU spike means toggling between three SSH
+            sessions and hoping timestamps line up.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg
+            class="feature-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <h3>No searchable history</h3>
+          <p>
+            <code>grep</code> and <code>tail -f</code> only take you so far. Querying
+            "what was my API logging between 14:45 and 15:30 yesterday" shouldn't
+            require a ritual.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg
+            class="feature-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M18 20V10M12 20V4M6 20v-6"></path>
+          </svg>
+          <h3>Invisible until it's too late</h3>
+          <p>
+            Memory leaks, disk saturation, runaway processes - you find out when
+            users complain, not when the metric crosses a threshold.
+          </p>
+        </div>
+      </div>
+
+      <a href="/docs#the-problem" class="read-more-link">
+        Read the full story
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── How Section ── -->
+  <section class="section" id="how" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">The solution</span>
+        <h2 class="text-headline" id="how-heading">
+          One agent. One server.<br />Everything in one place.
+        </h2>
+        <p>
+          A single static binary runs on each machine you want to monitor. It
+          streams metrics and logs over gRPC to your central Raven server, which
+          stores, indexes, and surfaces everything through one dashboard.
+        </p>
+      </div>
+
+      <div class="cards-grid stagger animate-on-scroll">
+        <div class="feature-card">
+          <svg
+            class="feature-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+          </svg>
+          <h3>10-second metric resolution</h3>
+          <p>
+            The agent reads <code>/proc</code> every 10 seconds - CPU, memory, disk
+            I/O, network, load average - and streams batches to the server over a
+            persistent gRPC connection with TLS.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg
+            class="feature-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+            ></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          <h3>Centralized log search</h3>
+          <p>
+            Logs land in ClickHouse with a bloom filter index on content.
+            Full-text search across all your hosts and apps, over any time
+            range, in sub-second queries.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <svg
+            class="feature-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <h3>Alerts that don't spam</h3>
+          <p>
+            Threshold rules with a state machine: OK → Pending → Firing →
+            Resolved. Notifications fire only on transitions. Discord, Slack,
+            and email supported out of the box.
+          </p>
+        </div>
+      </div>
+
+      <a href="/docs#how-raven-solves-it" class="read-more-link">
+        See how it works
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Getting Started ── -->
+  <section class="section" id="getting-started" aria-labelledby="gs-heading">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <span class="section-label">Quick start</span>
+        <h2 class="text-headline" id="gs-heading">Up in under a minute.</h2>
+        <p>
+          Three steps from zero to a live dashboard. No account creation, no
+          cloud signup, no vendor lock-in.
+        </p>
+      </div>
+
+      <div class="steps-grid quickstart-steps stagger animate-on-scroll">
+        <div class="step-card">
+          <span class="step-number">01</span>
+          <h3>Deploy the server</h3>
+          <div class="placeholder-notice" style="margin-top: var(--space-4);">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="2"
+              style="flex-shrink:0;margin-top:1px"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>coming soon.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">02</span>
+          <h3>Generate an agent token</h3>
+          <div class="placeholder-notice" style="margin-top: var(--space-4);">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="2"
+              style="flex-shrink:0;margin-top:1px"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>coming soon.</p>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <span class="step-number">03</span>
+          <h3>Install the agent</h3>
+          <div class="placeholder-notice" style="margin-top: var(--space-4);">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="2"
+              style="flex-shrink:0;margin-top:1px"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>coming soon.</p>
+          </div>
+        </div>
+      </div>
+
+      <a href="/docs/installation" class="read-more-link quickstart-guide-link">
+        Full installation guide
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── Stack Strip ── -->
+  <section class="stack-strip" aria-label="Technology stack">
+    <div class="container">
+      <div class="stack-items">
+        <span class="stack-label">Built on</span>
+        <span class="stack-item">Rust</span>
+        <span class="stack-item">gRPC / tonic</span>
+        <span class="stack-item">VictoriaMetrics</span>
+        <span class="stack-item">ClickHouse</span>
+        <span class="stack-item">axum</span>
+        <span class="stack-item">Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Scroll-triggered animations via IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    );
+
+    document.querySelectorAll(".animate-on-scroll").forEach((el) => {
+      observer.observe(el);
+    });
+  });
+</script>

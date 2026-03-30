@@ -1,0 +1,87 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+const pages: Record<string, { title: string; description: string }> = {
+  "agent-config": {
+    title: "Agent configuration",
+    description: "Full reference for agent.toml configuration options.",
+  },
+  "server-config": {
+    title: "Server configuration",
+    description: "Full reference for server.toml configuration options.",
+  },
+  "api-reference": {
+    title: "API reference",
+    description: "HTTP API endpoints exposed by raven-server.",
+  },
+  alerting: {
+    title: "Alerting",
+    description: "Configure alert rules and notification channels.",
+  },
+  security: {
+    title: "Security model",
+    description:
+      "Authentication, authorization, and transport security in Raven.",
+  },
+};
+
+const { slug } = Astro.params;
+const page = pages[slug as string];
+
+if (!page) {
+  return Astro.redirect("/docs");
+}
+
+export const getStaticPaths = () => [
+  { params: { slug: "agent-config" } },
+  { params: { slug: "server-config" } },
+  { params: { slug: "api-reference" } },
+  { params: { slug: "alerting" } },
+  { params: { slug: "security" } },
+];
+---
+
+<DocsLayout
+  title={page.title}
+  description={page.description}
+  currentPath={`/docs/${slug}`}
+>
+  <nav class="docs-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="/docs">Docs</a>
+    <span aria-hidden="true">›</span>
+    <span>{page.title}</span>
+  </nav>
+
+  <article class="prose">
+    <h1>{page.title}</h1>
+    <p
+      class="text-body"
+      style="font-size: 1.0625rem; margin-bottom: var(--space-8); color: var(--fg-muted);"
+    >
+      {page.description}
+    </p>
+
+    <div class="placeholder-notice">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--accent)"
+        stroke-width="2"
+        style="flex-shrink:0;margin-top:2px"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <p>
+        This page is a placeholder. Content will be written here as the project
+        develops.
+      </p>
+    </div>
+  </article>
+</DocsLayout>
