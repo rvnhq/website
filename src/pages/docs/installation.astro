@@ -1,0 +1,66 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+---
+
+<DocsLayout
+  title="Installation"
+  description="Install the Raven central server and agent on your infrastructure."
+  currentPath="/docs/installation"
+>
+  <nav class="docs-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="/docs">Docs</a>
+    <span aria-hidden="true">›</span>
+    <span>Installation</span>
+  </nav>
+
+  <article class="prose">
+    <h1>Installation</h1>
+    <p
+      class="text-body"
+      style="font-size: 1.0625rem; margin-bottom: var(--space-8); color: var(--fg-muted);"
+    >
+      Deploy the central server and connect your first agent.
+    </p>
+
+    <div class="placeholder-notice">
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="var(--accent)"
+        stroke-width="2"
+        style="flex-shrink:0;margin-top:2px"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <p>
+        This page is a placeholder. Full installation documentation - Docker
+        Compose setup, agent install script, configuration reference, and
+        networking requirements - will be written here once the install script
+        is ready.
+      </p>
+    </div>
+
+    <h2>What will be covered here</h2>
+
+    <ul>
+      <li>Prerequisites (Docker, Linux target for the agent)</li>
+      <li>
+        Deploying the central server with <code>docker compose up -d</code>
+      </li>
+      <li>First-time dashboard setup and admin account creation</li>
+      <li>Generating an agent token</li>
+      <li>
+        Installing <code>raven-agent</code> on a Linux server (x86_64 and aarch64)
+      </li>
+      <li>Verifying the agent is online in the dashboard</li>
+      <li>Configuring log file tailing</li>
+    </ul>
+  </article>
+</DocsLayout>

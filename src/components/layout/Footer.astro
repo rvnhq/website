@@ -1,0 +1,38 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <a href="/" aria-label="Raven home">
+          <img
+            src="/raven-icon.svg"
+            alt="Raven"
+            width={24}
+            height={24}
+            class="footer-icon"
+          />
+        </a>
+        <span class="text-small" style="color: var(--fg-subtle);">
+          © {year} Raven
+        </span>
+      </div>
+
+      <div class="footer-links">
+        <a href="/docs" class="footer-link">Docs</a>
+        <a
+          href="https://github.com/rvnhq/raven"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="footer-link"
+        >
+          GitHub
+        </a>
+      </div>
+
+      <span class="footer-right">Built with Rust.</span>
+    </div>
+  </div>
+</footer>

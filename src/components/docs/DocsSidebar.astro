@@ -1,0 +1,57 @@
+---
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = "" } = Astro.props;
+
+const nav = [
+  {
+    label: "Overview",
+    links: [{ href: "/docs", label: "Introduction" }],
+  },
+  {
+    label: "Setup",
+    links: [
+      { href: "/docs/installation", label: "Installation" },
+      { href: "/docs/agent-config", label: "Agent configuration" },
+      { href: "/docs/server-config", label: "Server configuration" },
+    ],
+  },
+  {
+    label: "Reference",
+    links: [
+      { href: "/docs/api-reference", label: "API reference" },
+      { href: "/docs/alerting", label: "Alerting" },
+      { href: "/docs/security", label: "Security model" },
+    ],
+  },
+];
+
+const isActive = (href: string) => {
+  if (href === "/docs")
+    return currentPath === "/docs" || currentPath === "/docs/";
+  return currentPath.startsWith(href);
+};
+---
+
+<aside class="docs-sidebar" aria-label="Documentation navigation">
+  <nav>
+    {
+      nav.map((group) => (
+        <div class="sidebar-group">
+          <p class="sidebar-group-label">{group.label}</p>
+          {group.links.map((link) => (
+            <a
+              href={link.href}
+              class={`sidebar-link${isActive(link.href) ? " active" : ""}`}
+              aria-current={isActive(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      ))
+    }
+  </nav>
+</aside>
